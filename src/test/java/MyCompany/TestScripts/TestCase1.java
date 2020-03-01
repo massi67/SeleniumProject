@@ -1,5 +1,7 @@
 package MyCompany.TestScripts;
 
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -8,10 +10,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -48,6 +52,7 @@ public class TestCase1 {
 		//Assert.assertEquals("Validating Home page is displayed or not", true, result);
 	}
 	
+	@Ignore
 	@Test
 	public void TC002_TabularContent() throws Exception {
 		driver.findElement(By.xpath("//a[contains(text(),'Challenging DOM')]")).click();
@@ -57,6 +62,59 @@ public class TestCase1 {
 		for(int i=0; i<tableRow.size(); i++) {
 			System.out.println(driver.findElement(By.xpath("//tbody/tr[5]/tr["+i+"]")).getText());
 		}
+	}
+	
+	@Ignore
+	@Test
+	public void TC003_CheckBox() throws Exception{
+		driver.findElement(By.xpath("//a[contains(text(), 'Checkboxes')]")).click();
+		Thread.sleep(2000);
+		boolean enabled = driver.findElement(By.xpath("(//input[@type='checkbox'])[1]")).isEnabled();
+		if(enabled)
+			driver.findElement(By.xpath("(//input[@type='checkbox'])[1]")).click();
+		else
+			Assert.assertFalse("Checkbox is not clickale!", 1==1);
+		Thread.sleep(2000);
+	}
+	
+	@Ignore
+	@Test
+	public void TC004_MouseAction() throws Exception{
+		driver.findElement(By.xpath("//a[contains(text(), 'Context Menu')]")).click();
+		Thread.sleep(2000);
+		Actions actions = new Actions(driver);
+		WebElement elementLocator = driver.findElement(By.id("hot-spot"));
+		actions.contextClick(elementLocator).perform();
+		Thread.sleep(2000);
+		driver.switchTo().alert().accept();
+		Thread.sleep(2000);
+	}
+	
+	@Test
+	public void TC005_WindowsPopupHandles() throws Exception{
+		driver.findElement(By.xpath("//a[contains(text(), 'Digest Authentication')]")).click();
+		Thread.sleep(2000);
+		Robot robot = new Robot();
+		robot.keyPress(KeyEvent.VK_A); 
+		robot.keyPress(KeyEvent.VK_D); 
+		robot.keyPress(KeyEvent.VK_M); 
+		robot.keyPress(KeyEvent.VK_I); 
+		robot.keyPress(KeyEvent.VK_N); 
+		Thread.sleep(2000);
+		robot.keyPress(KeyEvent.VK_TAB);
+		robot.keyPress(KeyEvent.VK_P); 
+		robot.keyPress(KeyEvent.VK_A); 
+		robot.keyPress(KeyEvent.VK_S); 
+		robot.keyPress(KeyEvent.VK_S); 
+		robot.keyPress(KeyEvent.VK_W);
+		robot.keyPress(KeyEvent.VK_O);
+		robot.keyPress(KeyEvent.VK_R);
+		robot.keyPress(KeyEvent.VK_D);
+		Thread.sleep(2000);
+		robot.keyPress(KeyEvent.VK_TAB);
+		Thread.sleep(1000);
+		robot.keyPress(KeyEvent.VK_ENTER);
+		Thread.sleep(2000);
 	}
 	
 	@After
