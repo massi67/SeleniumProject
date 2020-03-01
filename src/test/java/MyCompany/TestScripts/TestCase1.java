@@ -1,13 +1,16 @@
 package MyCompany.TestScripts;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -30,6 +33,7 @@ public class TestCase1 {
 		driver.get(appUrl);		
 	}
 
+	@Ignore
 	@Test
 	public void TC001_ClickFunction() throws Exception {
 		//Implicit wait
@@ -47,6 +51,12 @@ public class TestCase1 {
 	@Test
 	public void TC002_TabularContent() throws Exception {
 		driver.findElement(By.xpath("//a[contains(text(),'Challenging DOM')]")).click();
+		List<WebElement> tableRow = driver.findElements(By.xpath("//tbody/tr[5]"));
+		Thread.sleep(2000);
+		System.out.println("tableRow = "+tableRow.size());
+		for(int i=0; i<tableRow.size(); i++) {
+			System.out.println(driver.findElement(By.xpath("//tbody/tr[5]/tr["+i+"]")).getText());
+		}
 	}
 	
 	@After
